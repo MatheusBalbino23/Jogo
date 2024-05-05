@@ -1,0 +1,70 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<windows.h>
+#include<conio.h>
+#include<time.h>
+
+void gotoxy(int x, int y){
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE),(COORD){x-1,y-1});
+}
+
+void SetColor(int ForgC){
+    WORD wColor;
+
+    HANDLE hStdOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_SCREEN_BUFFER_INFO csbi;
+
+    if(GetConsoleScreenBufferInfo(hStdOut, &csbi)){
+    	wColor = (csbi.wAttributes & 0xF0) + (ForgC & 0x0F);
+        SetConsoleTextAttribute(hStdOut, wColor);
+    }
+    
+    return;
+}
+
+int main(){
+	
+	int col=90;
+	int linha=10;
+	int tiro; 
+	int numero_aleatorio;
+	int chances=0; 
+    
+    srand(time(NULL));   
+    numero_aleatorio = rand()%60;  
+    
+    printf("SEJA BEM VINDO AO NOSSO JOGO!!\n");
+    printf("Para acertar o monstro voce deve digitar um numero e ter sorte para acertar o monstro\n");
+    printf("O monstro tem 3 vidas e voce tem 5 chances, entao boa sorte\n");
+    printf("Sugerimos que nao tente numeros tao altos :)\n");
+    printf("PS: jogue o jogo em tela cheia!!\n");
+	printf("\nDigite um numero:");
+	
+	while (chances<=4){
+		scanf("%i", &tiro);
+		chances = chances + 1;
+	
+		gotoxy(col,numero_aleatorio);
+		printf("%c   %c", 201,201);
+		SetColor(1);
+		gotoxy(col,numero_aleatorio+1);
+		printf("%c%c%c%c%c%c", 219,219,178,178,219,219);
+		gotoxy(col,numero_aleatorio+2);
+		printf("%c%c%c%c%c%c", 219,219,178,178,219,219);
+		SetColor(4);
+		gotoxy(col,numero_aleatorio+3);
+		printf("%c    %c", 219,219);
+		gotoxy(col,numero_aleatorio+4);
+		printf("%c    %c", 219,219);
+	
+		for(int col=1; col<=83; col++){
+			SetColor(2);
+			gotoxy(col,tiro);
+			printf(" %c%c%c%c%c%c%c", 174,174,219,219,219,175,175);
+			_sleep(50);
+		}
+	}
+
+	return 0;
+}
+
